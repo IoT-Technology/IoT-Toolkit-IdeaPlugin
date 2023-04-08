@@ -1,0 +1,25 @@
+plugins {
+    id("java")
+    id("org.jetbrains.intellij") version "1.5.3"
+}
+
+group = "iot.technology"
+version = "0.7.0"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+}
+
+// Configure Gradle IntelliJ Plugin
+// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
+intellij {
+    version.set("2021.2")
+}
+
+test {
+    useJUnitPlatform()
+}
