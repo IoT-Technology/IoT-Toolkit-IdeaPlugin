@@ -14,22 +14,22 @@
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
-  ]]></description>
+    ]]>
+    </description>
+
+    <change-notes><![CDATA[
+    ]]>
+    </change-notes>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="IoT Toolkit"
+                    secondary="true"
+                    icon="AllIcons.Actions.Colors"
+                    factoryClass="iot.technology.plugin.toolkit.ToolkitToolsWindowManager"/>
+    </extensions>
 
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
 
-    <!-- Extension points defined by the plugin.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
-    <extensions defaultExtensionNs="com.intellij">
-        <applicationConfigurable
-            parentId="tools"
-            instance="iot.technology.plugin.extension.ToolkitSettingConfiguration"
-            id="iot.technology.plugin.extension.ToolkitSettingConfiguration"
-            displayName="IoT Toolkit"/>
-
-    </extensions>
 </idea-plugin>
