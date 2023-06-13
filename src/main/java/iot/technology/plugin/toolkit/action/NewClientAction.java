@@ -4,7 +4,7 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.DumbAware;
 import iot.technology.plugin.toolkit.commons.ToolkitIcons;
-import iot.technology.plugin.toolkit.view.ToolkitExplorerWindowFactory;
+import iot.technology.plugin.toolkit.ToolkitExplorerWindowFactory;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -15,7 +15,7 @@ public class NewClientAction extends AnAction implements DumbAware {
     private final ToolkitExplorerWindowFactory toolkitExplorerWindowFactory;
 
     public NewClientAction(ToolkitExplorerWindowFactory toolkitExplorerWindowFactory) {
-        super("New", "Add a IoT Protocol Client", ToolkitIcons.Tool.add);
+        super("New", "Add a IoT protocol client", ToolkitIcons.Tool.add);
         this.toolkitExplorerWindowFactory = toolkitExplorerWindowFactory;
     }
 

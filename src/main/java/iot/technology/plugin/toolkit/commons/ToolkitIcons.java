@@ -1,7 +1,6 @@
 package iot.technology.plugin.toolkit.commons;
 
 import com.intellij.icons.AllIcons;
-import com.intellij.openapi.util.IconLoader;
 
 import javax.swing.*;
 
@@ -16,5 +15,7 @@ public class ToolkitIcons {
         public static final Icon refresh = AllIcons.Actions.Refresh;
 
         public static final Icon copy = AllIcons.Actions.Copy;
+
+        public static final Icon settings = AllIcons.General.Settings;
     }
 }

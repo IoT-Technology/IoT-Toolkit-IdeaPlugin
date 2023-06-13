@@ -5,7 +5,6 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.*;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
-import iot.technology.plugin.toolkit.view.ToolkitExplorerWindowFactory;
 import org.jetbrains.annotations.NotNull;
 
 
