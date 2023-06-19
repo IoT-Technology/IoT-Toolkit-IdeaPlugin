@@ -3,7 +3,7 @@ package iot.technology.plugin.toolkit.action;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.DumbAware;
-import iot.technology.plugin.toolkit.commons.ToolkitIcons;
+import iot.technology.plugin.toolkit.commons.utils.ToolkitIcons;
 import iot.technology.plugin.toolkit.ToolkitExplorerWindowFactory;
 import org.jetbrains.annotations.NotNull;
 
