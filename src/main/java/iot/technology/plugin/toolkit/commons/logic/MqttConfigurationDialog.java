@@ -1,7 +1,9 @@
 package iot.technology.plugin.toolkit.commons.logic;
 
+import com.intellij.openapi.Disposable;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
+import iot.technology.plugin.toolkit.mqtt.MqttConfigurationPanel;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -9,7 +11,7 @@ import javax.swing.*;
 /**
  * @author mushuwei
  */
-public class MqttConfigurationDialog extends DialogWrapper {
+public class MqttConfigurationDialog extends DialogWrapper implements Disposable {
 
     public final Project project;
 
@@ -26,6 +28,12 @@ public class MqttConfigurationDialog extends DialogWrapper {
     @Nullable
     @Override
     protected JComponent createCenterPanel() {
-        return null;
+        MqttConfigurationPanel panel = new MqttConfigurationPanel(project);
+        return panel.getRootPanel();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
     }
 }

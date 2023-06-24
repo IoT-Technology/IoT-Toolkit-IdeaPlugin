@@ -3,7 +3,6 @@ package iot.technology.plugin.toolkit.commons.logic;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.PopupStep;
 import com.intellij.openapi.ui.popup.util.BaseListPopupStep;
-import iot.technology.plugin.toolkit.MyDiaLog;
 import iot.technology.plugin.toolkit.commons.utils.ToolkitProtocolVendorEnum;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -39,10 +38,10 @@ public class AddClientPopupStep extends BaseListPopupStep<String> {
     @Override
     public @Nullable Runnable getFinalRunnable() {
         if (selectedOption.equals(ToolkitProtocolVendorEnum.MQTT.getCode())) {
-           coapConfigDialog.show();
+            mqttConfigDialog.show();
         }
         if (selectedOption.equals(ToolkitProtocolVendorEnum.COAP.getCode())) {
-            mqttConfigDialog.show();
+            coapConfigDialog.show();
         }
         return super.getFinalRunnable();
     }
@@ -61,7 +60,7 @@ public class AddClientPopupStep extends BaseListPopupStep<String> {
     @Override
     public @NotNull String getTextFor(String value) {
         if (value.equals(ToolkitProtocolVendorEnum.MQTT.getCode())) {
-            return ToolkitProtocolVendorEnum.COAP.getDesc();
+            return ToolkitProtocolVendorEnum.MQTT.getDesc();
         }
         if (value.equals(ToolkitProtocolVendorEnum.COAP.getCode())) {
             return ToolkitProtocolVendorEnum.COAP.getDesc();

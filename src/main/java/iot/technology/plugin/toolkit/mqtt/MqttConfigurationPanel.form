@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="rootPanel" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="773" height="576"/>
+      <xy x="20" y="20" width="952" height="576"/>
     </constraints>
     <properties/>
     <clientProperties>
@@ -21,7 +21,9 @@
       </component>
       <component id="63c7f" class="javax.swing.JLabel">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="49" height="27"/>
+          </grid>
         </constraints>
         <properties>
           <text value="Name:"/>
@@ -30,7 +32,7 @@
       <component id="20aea" class="javax.swing.JTextField" binding="mqttConfigName">
         <constraints>
           <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
+            <preferred-size width="150" height="27"/>
           </grid>
         </constraints>
         <properties/>
@@ -44,7 +46,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="1859" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="1859" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="true" same-size-vertically="true" hgap="-1" vgap="-1">
             <margin top="5" left="5" bottom="5" right="5"/>
             <constraints>
               <tabbedpane title="General"/>
@@ -126,7 +128,7 @@
                   <text value="Authentication "/>
                 </properties>
               </component>
-              <component id="85f3d" class="javax.swing.JComboBox" binding="AuthenticationComboBox">
+              <component id="85f3d" class="javax.swing.JComboBox" binding="authenticationComboBox">
                 <constraints>
                   <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="50" height="-1"/>
@@ -136,7 +138,7 @@
                   <toolTipText value=""/>
                 </properties>
               </component>
-              <component id="c7255" class="javax.swing.JLabel">
+              <component id="c7255" class="javax.swing.JLabel" binding="userlabel">
                 <constraints>
                   <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -150,7 +152,7 @@
                 </constraints>
                 <properties/>
               </component>
-              <component id="ee03b" class="javax.swing.JLabel">
+              <component id="ee03b" class="javax.swing.JLabel" binding="passlabel">
                 <constraints>
                   <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -192,7 +194,7 @@
                   <text value="Connect Timeout "/>
                 </properties>
               </component>
-              <component id="c672e" class="javax.swing.JSpinner" binding="connectTimeout">
+              <component id="c672e" class="javax.swing.JSpinner" binding="connectTimeout" custom-create="true">
                 <constraints>
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="245" height="-1"/>
@@ -221,7 +223,7 @@
                   <text value="Keep Alive "/>
                 </properties>
               </component>
-              <component id="c672g" class="javax.swing.JSpinner" binding="keepAlive">
+              <component id="c672g" class="javax.swing.JSpinner" binding="keepAlive" custom-create="true">
                 <constraints>
                   <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
                     <preferred-size width="245" height="-1"/>
@@ -252,10 +254,10 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
-              <component id="2948" class="javax.swing.JLabel">
+              <component id="2948" class="javax.swing.JLabel" binding="autoReconnectUnit">
                 <constraints>
                   <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -282,7 +284,7 @@
               </component>
             </children>
           </grid>
-          <grid id="15bbe" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="15bbe" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="true" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="5" left="5" bottom="5" right="5"/>
             <constraints>
               <tabbedpane title="TLS/SSL"/>
@@ -323,12 +325,12 @@
                   <text value="Self signed"/>
                 </properties>
               </component>
-              <component id="164ee" class="javax.swing.JLabel">
+              <component id="164ee" class="javax.swing.JLabel" binding="caFileField">
                 <constraints>
                   <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <enabled value="true"/>
                   <text value="CA File"/>
                 </properties>
               </component>
@@ -339,15 +341,15 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
-              <component id="a9923" class="javax.swing.JLabel">
+              <component id="a9923" class="javax.swing.JLabel" binding="clientFileField">
                 <constraints>
                   <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <enabled value="true"/>
                   <text value="Client Certificate File"/>
                 </properties>
               </component>
@@ -358,15 +360,15 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
-              <component id="13f5d" class="javax.swing.JLabel">
+              <component id="13f5d" class="javax.swing.JLabel" binding="clientKeyFileField">
                 <constraints>
                   <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <enabled value="true"/>
                   <text value="Client key file"/>
                 </properties>
               </component>
@@ -377,7 +379,7 @@
                   </grid>
                 </constraints>
                 <properties>
-                  <enabled value="false"/>
+                  <enabled value="true"/>
                 </properties>
               </component>
             </children>
