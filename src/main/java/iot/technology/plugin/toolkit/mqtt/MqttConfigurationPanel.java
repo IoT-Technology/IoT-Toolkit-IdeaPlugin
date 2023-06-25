@@ -4,6 +4,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
 import iot.technology.plugin.toolkit.commons.utils.AuthenticationEnum;
 import iot.technology.plugin.toolkit.commons.utils.MqttVersionEnum;
+import iot.technology.plugin.toolkit.mqtt.model.MqttServerConfiguration;
 
 import javax.swing.*;
 import java.awt.event.ItemEvent;
@@ -72,6 +73,9 @@ public class MqttConfigurationPanel extends JPanel {
     private JRadioButton payloadJson;
     private JRadioButton payloadPlain;
 
+    /**
+     * test mqtt server
+     */
     private JButton testConnectionButton;
 
     private final Project project;
@@ -151,9 +155,17 @@ public class MqttConfigurationPanel extends JPanel {
         qosGroup.add(qos1Field);
         qosGroup.add(qos2Field);
 
+        ButtonGroup lastWillGroup = new ButtonGroup();
+        lastWillGroup.add(payloadJson);
+        lastWillGroup.add(payloadPlain);
+
     }
 
-    public void loadConfigurationData() {
+    public void loadConfigurationData(MqttServerConfiguration config) {
+        mqttConfigName.setText(config.getConfigName());
+        clientIdField.setText(config.getClientId());
+        hostField.setText(config.getHost());
+        portField.setText(config.getPort() + "");
 
     }
 
