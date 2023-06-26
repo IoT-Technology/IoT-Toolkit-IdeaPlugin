@@ -1,6 +1,8 @@
 package iot.technology.plugin.toolkit.mqtt.model;
 
 
+import iot.technology.plugin.toolkit.commons.utils.GenerateUtils;
+
 /**
  * @author mushuwei
  */
@@ -57,6 +59,7 @@ public class MqttServerConfiguration implements Cloneable {
 
     public static MqttServerConfiguration byDefault() {
         MqttServerConfiguration serverConfiguration = new MqttServerConfiguration();
+        serverConfiguration.setClientId(GenerateUtils.generateMqttClientId());
         serverConfiguration.setHost(DEFAULT_HOST);
         serverConfiguration.setPort(DEFAULT_PORT);
         return serverConfiguration;

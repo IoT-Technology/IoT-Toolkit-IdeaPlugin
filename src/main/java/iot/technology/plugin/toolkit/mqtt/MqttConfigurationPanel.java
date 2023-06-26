@@ -1,19 +1,37 @@
 package iot.technology.plugin.toolkit.mqtt;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.intellij.icons.AllIcons;
+import com.intellij.openapi.progress.ProgressIndicator;
+import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.TextFieldWithBrowseButton;
+import com.intellij.openapi.util.Ref;
 import iot.technology.plugin.toolkit.commons.utils.AuthenticationEnum;
+import iot.technology.plugin.toolkit.commons.utils.ConfigurationException;
+import iot.technology.plugin.toolkit.commons.utils.GenerateUtils;
 import iot.technology.plugin.toolkit.commons.utils.MqttVersionEnum;
 import iot.technology.plugin.toolkit.mqtt.model.MqttServerConfiguration;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import java.awt.event.ItemEvent;
+import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.Objects;
 
 /**
  * @author mushuwei
  */
 @SuppressWarnings("unchecked")
 public class MqttConfigurationPanel extends JPanel {
+
+    public static final Icon SUCCESS = AllIcons.General.SuccessDialog;
+    public static final Icon FAIL = AllIcons.General.ErrorDialog;
+    public static final Icon ReGenerateClientId = AllIcons.Actions.Refresh;
 
     private JPanel rootPanel;
     private JLabel feedbackLabel;
@@ -29,6 +47,7 @@ public class MqttConfigurationPanel extends JPanel {
      * mqtt config general configuration
      */
     private JTextField clientIdField;
+    private JLabel reGeClientId;
     private JTextField hostField;
     private JTextField portField;
     private JComboBox authenticationComboBox;
@@ -82,6 +101,13 @@ public class MqttConfigurationPanel extends JPanel {
 
     public MqttConfigurationPanel(Project project) {
         this.project = project;
+        reGeClientId.setIcon(ReGenerateClientId);
+        reGeClientId.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                clientIdField.setText(GenerateUtils.generateMqttClientId());
+            }
+        });
 
         authenticationComboBox.setModel(new DefaultComboBoxModel<>(AuthenticationEnum.getLabels()));
         authenticationComboBox.setSelectedItem(AuthenticationEnum.USER_AND_PASSWORD.getLabel());
@@ -159,6 +185,78 @@ public class MqttConfigurationPanel extends JPanel {
         lastWillGroup.add(payloadJson);
         lastWillGroup.add(payloadPlain);
 
+
+        payloadJson.addActionListener(e -> formatJSON());
+
+        // Test whether the broker can be connected.
+        initTestConnectListeners();
+    }
+
+    private void initTestConnectListeners() {
+        testConnectionButton.addActionListener(actionEvent -> {
+            MqttServerConfiguration configuration = createServerConfigurationForTesting();
+
+            final Ref<Exception> excRef = new Ref<>();
+            final ProgressManager progressManager = ProgressManager.getInstance();
+            progressManager.runProcessWithProgressSynchronously(() -> {
+
+                final ProgressIndicator progressIndicator = progressManager.getProgressIndicator();
+                if (progressIndicator != null) {
+                    progressIndicator.setText("Connecting to Mongo server...");
+                }
+                try {
+                } catch (Exception ex) {
+                    excRef.set(ex);
+                }
+            }, "Testing Connection", true, MqttConfigurationPanel.this.project);
+
+            if (!excRef.isNull()) {
+                Messages.showErrorDialog(rootPanel, excRef.get().getMessage(), "Connection Test Failed");
+            } else {
+                Messages.showInfoMessage(rootPanel, "Connection test successful", "Connection Test Successful");
+            }
+        });
+    }
+
+    @NotNull
+    private MqttServerConfiguration createServerConfigurationForTesting() {
+        MqttServerConfiguration configuration = MqttServerConfiguration.byDefault();
+        configuration.setHost(getHost());
+        configuration.setPort(getPort());
+        configuration.setUserName(getUsername());
+        configuration.setPassword(getPassword());
+        configuration.setMqttVersion(getMqttVersion());
+        configuration.setConnectTime(getConnectTimeout());
+        configuration.setSsl(getSslSecure());
+        if (getCaSignedServer()) {
+            configuration.setCertificate(1);
+            return configuration;
+        }
+        if (getSelfSigned()) {
+            configuration.setCertificate(2);
+            configuration.setCaFile(getCaFile());
+            configuration.setClientCertFile(getClientCertFile());
+            configuration.setClientKeyFile(getClientCertFile());
+            return configuration;
+        }
+        return configuration;
+    }
+
+    private void formatJSON() {
+        String jsonString = lastWillPayload.getText();
+        if (StringUtils.isNotBlank(jsonString)) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                Object json = objectMapper.readValue(jsonString, Object.class);
+                String formattedJSON = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+                lastWillPayload.setText(formattedJSON);
+                lastWillPayload.setForeground(Color.BLACK);
+                lastWillPayload.setBorder(null);
+            } catch (JsonProcessingException e) {
+                lastWillPayload.setForeground(Color.BLACK);
+                lastWillPayload.setBorder(new LineBorder(Color.RED));
+            }
+        }
     }
 
     public void loadConfigurationData(MqttServerConfiguration config) {
@@ -169,140 +267,165 @@ public class MqttConfigurationPanel extends JPanel {
 
     }
 
+    public void applyConfigurationData(MqttServerConfiguration config) {
+        validateConfigParam();
+
+        config.setConfigName(getMqttConfigName());
+
+    }
+
+    private void validateConfigParam() {
+        if (StringUtils.isBlank(getMqttConfigName())) {
+            throw new ConfigurationException("config name should be set");
+        }
+        if (StringUtils.isBlank(getClientId())) {
+            throw new ConfigurationException("client Id should be set");
+        }
+        if (StringUtils.isBlank(getHost())) {
+            throw new ConfigurationException("host should be set");
+        }
+        Integer port = getPort();
+        if (port < 0 || port > 65535) {
+            throw new ConfigurationException(String.format("Port:%s is incorrect. It should between 0 and 65535", port));
+        }
+    }
+
+    public void setErrorMessage(String message) {
+        feedbackLabel.setIcon(FAIL);
+        feedbackLabel.setText(message);
+
+        // 3 seconds disappear
+        Timer timer = new Timer(3000, e -> {
+            feedbackLabel.setIcon(null);
+            feedbackLabel.setText("");
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
+
     public JPanel getRootPanel() {
         return rootPanel;
     }
 
-    public JLabel getFeedbackLabel() {
-        return feedbackLabel;
+    public String getMqttConfigName() {
+        String configName = mqttConfigName.getText();
+        return StringUtils.isNotBlank(configName) ? configName : null;
     }
 
-    public JTextField getMqttConfigName() {
-        return mqttConfigName;
+    public String getClientId() {
+        String clientId = clientIdField.getText();
+        return StringUtils.isNotBlank(clientId) ? clientId : null;
     }
 
-    public JTabbedPane getSettingTabbedPane() {
-        return settingTabbedPane;
+    public String getHost() {
+        String host = hostField.getText();
+        return StringUtils.isNotBlank(host) ? host : null;
     }
 
-    public JTextField getClientIdField() {
-        return clientIdField;
+    public Integer getPort() {
+        String portString = portField.getText();
+        Integer port = null;
+        if (StringUtils.isBlank(portString)) {
+            return port;
+        }
+        try {
+            port = Integer.valueOf(portString);
+        } catch (NumberFormatException e) {
+            throw new ConfigurationException(String.format("Port:%s is incorrect. It should be a number", portString));
+        }
+        return port;
     }
 
-    public JTextField getHostField() {
-        return hostField;
+    public String getUsername() {
+        String username = usernameField.getText();
+        return StringUtils.isNotBlank(username) ? username : null;
     }
 
-    public JTextField getPortField() {
-        return portField;
+    public String getPassword() {
+        String password = passwordField.getText();
+        return StringUtils.isNotBlank(password) ? password : null;
     }
 
-    public JComboBox getAuthenticationComboBox() {
-        return authenticationComboBox;
+    public String getMqttVersion() {
+        Object mqttVersionObject = mqttVersionComboBox.getSelectedItem();
+        return Objects.nonNull(mqttVersionObject) ? (String) mqttVersionObject : null;
     }
 
-    public JLabel getUserlabel() {
-        return userlabel;
+    public Integer getConnectTimeout() {
+        Object connectTimeObject = connectTimeout.getValue();
+        return Objects.nonNull(connectTimeObject) ? (Integer) connectTimeObject : null;
     }
 
-    public JLabel getPasslabel() {
-        return passlabel;
+    public Integer getKeepAlive() {
+        Object keepAliveObject = keepAlive.getValue();
+        return Objects.nonNull(keepAliveObject) ? (Integer) keepAliveObject : null;
     }
 
-    public JTextField getUsernameField() {
-        return usernameField;
+    public Boolean getAutoReconnect() {
+        return autoReconnectCheckBox.isSelected();
     }
 
-    public JTextField getPasswordField() {
-        return passwordField;
+    public Integer getAutoReconnectTime() {
+        Object autoReconnectTimeObject = autoReconnectTime.getValue();
+        return Objects.nonNull(autoReconnectTimeObject) ? (Integer) autoReconnectTimeObject : null;
     }
 
-    public JComboBox getMqttVersionComboBox() {
-        return mqttVersionComboBox;
+    public Boolean getCleanSession() {
+        return cleanSessionCheckBox.isSelected();
     }
 
-    public JSpinner getConnectTimeout() {
-        return connectTimeout;
+    public Boolean getSslSecure() {
+        return SSLSecureCheckBox.isSelected();
     }
 
-    public JSpinner getKeepAlive() {
-        return keepAlive;
+    public Boolean getCaSignedServer() {
+        return CASignedServerRadioButton.isSelected();
     }
 
-    public JCheckBox getAutoReconnectCheckBox() {
-        return autoReconnectCheckBox;
+    public Boolean getSelfSigned() {
+        return selfSignedRadioButton.isSelected();
     }
 
-    public JSpinner getAutoReconnectTime() {
-        return autoReconnectTime;
+    public String getCaFile() {
+        String cafile = caFile.getText();
+        return StringUtils.isNotBlank(cafile) ? cafile : "";
     }
 
-    public JCheckBox getCleanSessionCheckBox() {
-        return cleanSessionCheckBox;
+    public String getClientCertFile() {
+        String clientCert = clientCertFile.getText();
+        return StringUtils.isNotBlank(clientCert) ? clientCert : "";
     }
 
-    public JCheckBox getSSLSecureCheckBox() {
-        return SSLSecureCheckBox;
+    public String getClientKey() {
+        String clientKey = clientKeyFile.getText();
+        return StringUtils.isNotBlank(clientKey) ? clientKey : "";
     }
 
-    public JRadioButton getCASignedServerRadioButton() {
-        return CASignedServerRadioButton;
+    public String lastWillTopic() {
+        String lastWillTopic = lastWillTopicField.getText();
+        return StringUtils.isNotBlank(lastWillTopic) ? lastWillTopic : "";
     }
 
-    public JRadioButton getSelfSignedRadioButton() {
-        return selfSignedRadioButton;
+    public Integer getLastWillQos() {
+        if (qos0Field.isSelected()) {
+            return 0;
+        }
+        if (qos1Field.isSelected()) {
+            return 1;
+        }
+        if (qos2Field.isSelected()) {
+            return 2;
+        }
+        return 0;
     }
 
-    public TextFieldWithBrowseButton getCaFile() {
-        return caFile;
+    public Boolean getLastWillRetain() {
+        return lastWillRetain.isSelected();
     }
 
-    public TextFieldWithBrowseButton getClientCertFile() {
-        return clientCertFile;
-    }
-
-    public TextFieldWithBrowseButton getClientKeyFile() {
-        return clientKeyFile;
-    }
-
-    public JTextField getLastWillTopicField() {
-        return lastWillTopicField;
-    }
-
-    public JRadioButton getQos0Field() {
-        return qos0Field;
-    }
-
-    public JRadioButton getQos1Field() {
-        return qos1Field;
-    }
-
-    public JRadioButton getQos2Field() {
-        return qos2Field;
-    }
-
-    public JCheckBox getLastWillRetain() {
-        return lastWillRetain;
-    }
-
-    public JTextArea getLastWillPayload() {
-        return lastWillPayload;
-    }
-
-    public JRadioButton getPayloadJson() {
-        return payloadJson;
-    }
-
-    public JRadioButton getPayloadPlain() {
-        return payloadPlain;
-    }
-
-    public JButton getTestConnectionButton() {
-        return testConnectionButton;
-    }
-
-    public JLabel getAutoReconnectUnit() {
-        return autoReconnectUnit;
+    public String getLastWillPayload() {
+        String lastWillPayloadData = lastWillPayload.getText();
+        return StringUtils.isNotBlank(lastWillPayloadData) ? lastWillPayloadData : null;
     }
 
     private void createUIComponents() {
