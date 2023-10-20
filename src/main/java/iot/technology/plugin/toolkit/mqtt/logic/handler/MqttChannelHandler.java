@@ -22,7 +22,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.mqtt.*;
 import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.Promise;
-import iot.technology.plugin.toolkit.mqtt.logic.MqttClientService;
+import iot.technology.plugin.toolkit.mqtt.logic.core.MqttClientService;
 import iot.technology.plugin.toolkit.mqtt.logic.domain.*;
 
 /**

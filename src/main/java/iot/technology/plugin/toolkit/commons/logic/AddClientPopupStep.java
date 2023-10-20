@@ -3,7 +3,8 @@ package iot.technology.plugin.toolkit.commons.logic;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.popup.PopupStep;
 import com.intellij.openapi.ui.popup.util.BaseListPopupStep;
-import iot.technology.plugin.toolkit.commons.utils.ToolkitProtocolVendorEnum;
+import iot.technology.plugin.toolkit.DemoKtBasicsKt;
+import iot.technology.plugin.toolkit.commons.utils.ToolkitProtocolVendor;
 import iot.technology.plugin.toolkit.mqtt.model.MqttServerConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public class AddClientPopupStep extends BaseListPopupStep<String> {
 
-    public static String selectedOption = ToolkitProtocolVendorEnum.MQTT.getCode();
+    public static String selectedOption = ToolkitProtocolVendor.MQTT.getCode();
     public  final Project project;
     public final CoapConfigurationDialog coapConfigDialog;
 
@@ -36,12 +37,12 @@ public class AddClientPopupStep extends BaseListPopupStep<String> {
 
     @Override
     public @Nullable Runnable getFinalRunnable() {
-        if (selectedOption.equals(ToolkitProtocolVendorEnum.MQTT.getCode())) {
+        if (selectedOption.equals(ToolkitProtocolVendor.MQTT.getCode())) {
             MqttServerConfiguration serverConfiguration = MqttServerConfiguration.byDefault();
             MqttConfigurationDialog mqttConfigDialog = new MqttConfigurationDialog(project, serverConfiguration);
             mqttConfigDialog.show();
         }
-        if (selectedOption.equals(ToolkitProtocolVendorEnum.COAP.getCode())) {
+        if (selectedOption.equals(ToolkitProtocolVendor.COAP.getCode())) {
             CoapConfigurationDialog coapConfigDialog = new CoapConfigurationDialog(project);
             coapConfigDialog.show();
         }
@@ -50,24 +51,24 @@ public class AddClientPopupStep extends BaseListPopupStep<String> {
 
     @Override
     public Icon getIconFor(String value) {
-        if (value.equals(ToolkitProtocolVendorEnum.MQTT.getCode())) {
-            return ToolkitProtocolVendorEnum.MQTT.getIcon();
+        if (value.equals(ToolkitProtocolVendor.MQTT.getCode())) {
+            return ToolkitProtocolVendor.MQTT.getIcon();
         }
-        if (value.equals(ToolkitProtocolVendorEnum.COAP.getCode())) {
-            return ToolkitProtocolVendorEnum.COAP.getIcon();
+        if (value.equals(ToolkitProtocolVendor.COAP.getCode())) {
+            return ToolkitProtocolVendor.COAP.getIcon();
         }
-        return ToolkitProtocolVendorEnum.DEFAULT.getIcon();
+        return ToolkitProtocolVendor.DEFAULT.getIcon();
     }
 
     @Override
     public @NotNull String getTextFor(String value) {
-        if (value.equals(ToolkitProtocolVendorEnum.MQTT.getCode())) {
-            return ToolkitProtocolVendorEnum.MQTT.getDesc();
+        if (value.equals(ToolkitProtocolVendor.MQTT.getCode())) {
+            return ToolkitProtocolVendor.MQTT.getDesc();
         }
-        if (value.equals(ToolkitProtocolVendorEnum.COAP.getCode())) {
-            return ToolkitProtocolVendorEnum.COAP.getDesc();
+        if (value.equals(ToolkitProtocolVendor.COAP.getCode())) {
+            return ToolkitProtocolVendor.COAP.getDesc();
         }
-        return ToolkitProtocolVendorEnum.DEFAULT.getDesc();
+        return ToolkitProtocolVendor.DEFAULT.getDesc();
     }
 
 }

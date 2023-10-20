@@ -6,7 +6,7 @@ import com.intellij.openapi.ui.popup.*;
 import iot.technology.plugin.toolkit.commons.utils.ToolkitIcons;
 import iot.technology.plugin.toolkit.ToolkitExplorerWindowFactory;
 import iot.technology.plugin.toolkit.commons.logic.AddClientPopupStep;
-import iot.technology.plugin.toolkit.commons.utils.ToolkitProtocolVendorEnum;
+import iot.technology.plugin.toolkit.commons.utils.ToolkitProtocolVendor;
 import org.jetbrains.annotations.NotNull;
 
 import com.intellij.openapi.ui.popup.JBPopupFactory;
@@ -33,8 +33,8 @@ public class NewClientAction extends AnAction implements DumbAware {
     public void actionPerformed(@NotNull AnActionEvent e) {
 
         List<String> vendors = new ArrayList<>();
-        vendors.add(ToolkitProtocolVendorEnum.MQTT.getCode());
-        vendors.add(ToolkitProtocolVendorEnum.COAP.getCode());
+        vendors.add(ToolkitProtocolVendor.MQTT.getCode());
+        vendors.add(ToolkitProtocolVendor.COAP.getCode());
 
         // 创建列表弹出菜单步骤
         ListPopupStep<String> step = new AddClientPopupStep(e.getProject(), vendors);

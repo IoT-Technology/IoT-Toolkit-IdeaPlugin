@@ -13,6 +13,7 @@ import iot.technology.plugin.toolkit.commons.utils.AuthenticationEnum;
 import iot.technology.plugin.toolkit.commons.utils.ConfigurationException;
 import iot.technology.plugin.toolkit.commons.utils.GenerateUtils;
 import iot.technology.plugin.toolkit.commons.utils.MqttVersionEnum;
+import iot.technology.plugin.toolkit.mqtt.logic.MqttClientManager;
 import iot.technology.plugin.toolkit.mqtt.model.MqttServerConfiguration;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -202,7 +203,7 @@ public class MqttConfigurationPanel extends JPanel {
 
                 final ProgressIndicator progressIndicator = progressManager.getProgressIndicator();
                 if (progressIndicator != null) {
-                    progressIndicator.setText("Connecting to Mongo server...");
+                    progressIndicator.setText("Connecting to MQTT server...");
                 }
                 try {
                 } catch (Exception ex) {

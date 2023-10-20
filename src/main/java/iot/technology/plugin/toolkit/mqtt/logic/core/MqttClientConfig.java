@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package iot.technology.plugin.toolkit.mqtt.logic;
+package iot.technology.plugin.toolkit.mqtt.logic.core;
 
 import io.netty.handler.codec.mqtt.MqttVersion;
 import io.netty.handler.ssl.SslContext;

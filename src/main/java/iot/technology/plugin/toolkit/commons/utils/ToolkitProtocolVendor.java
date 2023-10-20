@@ -5,7 +5,7 @@ import javax.swing.*;
 /**
  * @author mushuwei
  */
-public enum ToolkitProtocolVendorEnum {
+public enum ToolkitProtocolVendor {
 
     MQTT("mqtt", "MQTT", ToolkitIcons.Vendor.mqtt32),
 
@@ -14,7 +14,7 @@ public enum ToolkitProtocolVendorEnum {
     DEFAULT("mqtt", "MQTT", ToolkitIcons.Vendor.mqtt32);
 
 
-    ToolkitProtocolVendorEnum(String code, String desc, Icon icon) {
+    ToolkitProtocolVendor(String code, String desc, Icon icon) {
         this.code = code;
         this.desc = desc;
         this.icon = icon;
