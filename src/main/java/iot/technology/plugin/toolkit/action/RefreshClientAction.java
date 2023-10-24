@@ -3,8 +3,8 @@ package iot.technology.plugin.toolkit.action;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.DumbAware;
-import iot.technology.plugin.toolkit.commons.utils.ToolkitIcons;
-import iot.technology.plugin.toolkit.ToolkitExplorerWindowFactory;
+import iot.technology.plugin.toolkit.view.ToolkitExplorerWindow;
+import iot.technology.plugin.toolkit.common.util.ToolkitIcons;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -14,11 +14,11 @@ public class RefreshClientAction extends AnAction implements DumbAware {
 
     private static final String REFRESH_TEXT = "Refresh this client";
 
-    private final ToolkitExplorerWindowFactory toolkitExplorerWindowFactory;
+    private final ToolkitExplorerWindow toolkitExplorerWindow;
 
-    public RefreshClientAction(ToolkitExplorerWindowFactory toolkitExplorerWindowFactory) {
+    public RefreshClientAction(ToolkitExplorerWindow toolkitExplorerWindow) {
         super("Refresh", REFRESH_TEXT, ToolkitIcons.Tool.refresh);
-        this.toolkitExplorerWindowFactory = toolkitExplorerWindowFactory;
+        this.toolkitExplorerWindow = toolkitExplorerWindow;
     }
 
     @Override

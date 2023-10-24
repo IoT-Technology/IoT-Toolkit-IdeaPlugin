@@ -25,7 +25,8 @@
         <toolWindow id="IoT Toolkit"
                     secondary="true"
                     icon="AllIcons.Actions.Colors"
-                    factoryClass="iot.technology.plugin.toolkit.ToolkitToolsWindowManager"/>
+                    anchor="right"
+                    factoryClass="iot.technology.plugin.toolkit.factory.ToolkitToolsWindowFactory"/>
     </extensions>
 
     <!-- Product and plugin compatibility requirements.

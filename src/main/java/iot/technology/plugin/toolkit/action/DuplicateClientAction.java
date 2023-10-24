@@ -3,8 +3,8 @@ package iot.technology.plugin.toolkit.action;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.DumbAware;
-import iot.technology.plugin.toolkit.commons.utils.ToolkitIcons;
-import iot.technology.plugin.toolkit.ToolkitExplorerWindowFactory;
+import iot.technology.plugin.toolkit.common.util.ToolkitIcons;
+import iot.technology.plugin.toolkit.view.ToolkitExplorerWindow;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -12,11 +12,11 @@ import org.jetbrains.annotations.NotNull;
  */
 public class DuplicateClientAction extends AnAction implements DumbAware {
 
-    private final ToolkitExplorerWindowFactory toolkitExplorerWindowFactory;
+    private final ToolkitExplorerWindow toolkitExplorerWindow;
 
-    public DuplicateClientAction(ToolkitExplorerWindowFactory toolkitExplorerWindowFactory) {
+    public DuplicateClientAction(ToolkitExplorerWindow toolkitExplorerWindow) {
         super("Duplicate", "Duplicate Client Configuration", ToolkitIcons.Tool.copy);
-        this.toolkitExplorerWindowFactory = toolkitExplorerWindowFactory;
+        this.toolkitExplorerWindow = toolkitExplorerWindow;
     }
 
     @Override

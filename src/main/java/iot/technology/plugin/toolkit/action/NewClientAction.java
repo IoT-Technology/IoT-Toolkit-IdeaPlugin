@@ -3,10 +3,10 @@ package iot.technology.plugin.toolkit.action;
 import com.intellij.openapi.actionSystem.*;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.ui.popup.*;
-import iot.technology.plugin.toolkit.commons.utils.ToolkitIcons;
-import iot.technology.plugin.toolkit.ToolkitExplorerWindowFactory;
-import iot.technology.plugin.toolkit.commons.logic.AddClientPopupStep;
-import iot.technology.plugin.toolkit.commons.utils.ToolkitProtocolVendor;
+import iot.technology.plugin.toolkit.view.ToolkitExplorerWindow;
+import iot.technology.plugin.toolkit.common.util.ToolkitIcons;
+import iot.technology.plugin.toolkit.common.logic.AddClientPopupStep;
+import iot.technology.plugin.toolkit.common.util.ToolkitProtocolVendor;
 import org.jetbrains.annotations.NotNull;
 
 import com.intellij.openapi.ui.popup.JBPopupFactory;
@@ -22,11 +22,11 @@ import java.util.List;
  */
 public class NewClientAction extends AnAction implements DumbAware {
 
-    private final ToolkitExplorerWindowFactory toolkitExplorerWindowFactory;
+    private final ToolkitExplorerWindow toolkitExplorerWindow;
 
-    public NewClientAction(ToolkitExplorerWindowFactory toolkitExplorerWindowFactory) {
+    public NewClientAction(ToolkitExplorerWindow toolkitExplorerWindow) {
         super("New", "Add a IoT protocol client", ToolkitIcons.Tool.add);
-        this.toolkitExplorerWindowFactory = toolkitExplorerWindowFactory;
+        this.toolkitExplorerWindow = toolkitExplorerWindow;
     }
 
     @Override

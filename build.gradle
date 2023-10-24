@@ -1,50 +1,37 @@
 plugins {
-    id("java")
-    id("org.jetbrains.intellij") version "1.14.0"
-    id 'org.jetbrains.kotlin.jvm' version '1.9.10'
+    id 'java'
+    id "org.jetbrains.intellij" version "1.15.0"
 }
 
-group = "iot.technology"
-version = "0.7.0"
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+group = 'iot.technology'
+version = '0.0.1'
 
 repositories {
     mavenCentral()
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-}
-
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2022.3.3")
+    version = '2023.2'
 }
 
 dependencies {
     implementation 'io.netty:netty-handler:4.1.94.Final'
     implementation 'io.netty:netty-codec-mqtt:4.1.94.Final'
     implementation 'com.google.guava:guava:32.1.0-jre'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    // lombok
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    testCompileOnly 'org.projectlombok:lombok:1.18.22'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 }
 
 
 test {
-    buildSearchableOptions {
-        enabled = false
-    }
-
-    patchPluginXml {
-        version.set("${project.version}")
-        sinceBuild.set("223")
-        untilBuild.set("232.*")
-    }
-
-    compileKotlin {
-        kotlinOptions.jvmTarget = "17"
-    }
-
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = "17"
-    }
+    useJUnitPlatform()
 }

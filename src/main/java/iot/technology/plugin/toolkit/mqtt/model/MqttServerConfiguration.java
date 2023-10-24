@@ -1,7 +1,7 @@
 package iot.technology.plugin.toolkit.mqtt.model;
 
 
-import iot.technology.plugin.toolkit.commons.utils.GenerateUtils;
+import iot.technology.plugin.toolkit.common.util.GenerateUtils;
 
 /**
  * @author mushuwei
